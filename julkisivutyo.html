@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MJY Julkisivutyö Oy – Julkisivumaalaukset & Rappaukset</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --brick: #B85C38;
+    --brick-dark: #8A3D22;
+    --sand: #E8D9C0;
+    --sand-light: #F4EDE0;
+    --concrete: #6B6B6B;
+    --dark: #1A1714;
+    --off-white: #F7F4EF;
+    --accent: #D4882A;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--off-white);
+    color: var(--dark);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: rgba(26,23,20,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .nav-logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900; font-size: 1.3rem; letter-spacing: 0.06em;
+    color: #fff; text-transform: uppercase;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600; font-size: 0.85rem; letter-spacing: 0.12em;
+    text-transform: uppercase; text-decoration: none;
+    color: rgba(255,255,255,0.65);
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-cta {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700; font-size: 0.8rem; letter-spacing: 0.12em;
+    text-transform: uppercase; text-decoration: none;
+    color: var(--dark); background: var(--accent);
+    padding: 0.55rem 1.4rem; border-radius: 2px;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--brick); color: #fff; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    position: relative;
+  }
+  .hero-left {
+    background: var(--dark);
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 10rem 4rem 5rem 4rem;
+    position: relative; overflow: hidden;
+  }
+  .hero-left::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url('https://images.squarespace-cdn.com/content/v1/63dd0bde8d0c567090298bfc/1677436393777-N4KNNU2VXL6YYLGGLEVL/SLRappaus_2+Suuri.jpeg') center/cover no-repeat;
+    opacity: 0.18;
+  }
+  .hero-texture {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image: repeating-linear-gradient(
+      0deg,transparent,transparent 2px,rgba(255,255,255,0.015) 2px,rgba(255,255,255,0.015) 4px
+    );
+  }
+  .hero-year {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 300; font-size: 0.75rem; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 1.5rem; position: relative;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .hero-year::before { content: ''; display: block; width: 2rem; height: 1px; background: var(--accent); }
+  .hero-headline {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900; line-height: 0.92;
+    font-size: clamp(3.5rem, 6vw, 5.5rem);
+    text-transform: uppercase; color: #fff;
+    position: relative; margin-bottom: 2rem;
+  }
+  .hero-headline em { color: var(--accent); font-style: normal; display: block; }
+  .hero-sub {
+    font-weight: 300; font-size: 1rem; line-height: 1.7;
+    color: rgba(255,255,255,0.6); position: relative;
+    max-width: 38ch; margin-bottom: 3rem;
+  }
+  .hero-cta-group { display: flex; gap: 1rem; position: relative; }
+  .btn-primary {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700; font-size: 0.85rem; letter-spacing: 0.12em;
+    text-transform: uppercase; text-decoration: none;
+    background: var(--brick); color: #fff;
+    padding: 0.85rem 2rem; border-radius: 2px;
+    transition: background 0.2s;
+  }
+  .btn-primary:hover { background: var(--brick-dark); }
+  .btn-ghost {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600; font-size: 0.85rem; letter-spacing: 0.12em;
+    text-transform: uppercase; text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.25); color: rgba(255,255,255,0.7);
+    padding: 0.85rem 2rem; border-radius: 2px;
+    transition: all 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+  .hero-right {
+    position: relative; overflow: visible;
+    background: var(--sand);
+  }
+  .hero-right-inner {
+    position: absolute; inset: 0; overflow: hidden;
+  }
+  .hero-right img {
+    width: 100%; height: 100%; object-fit: cover;
+    display: block;
+    filter: sepia(0.15) contrast(1.05);
+  }
+  .hero-right::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(184,92,56,0.15) 0%, transparent 60%);
+    pointer-events: none; z-index: 1;
+  }
+  .hero-stat-box {
+    position: absolute; bottom: 3rem; left: -3rem;
+    background: var(--accent);
+    padding: 1.5rem 2rem; border-radius: 2px;
+    z-index: 10;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  }
+  .hero-stat-box .num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900; font-size: 3.5rem; line-height: 1;
+    color: #fff;
+  }
+  .hero-stat-box .label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 400; font-size: 0.75rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: rgba(255,255,255,0.8);
+    margin-top: 0.25rem;
+  }
+
+  /* ── SERVICES ── */
+  #palvelut {
+    padding: 7rem 4rem;
+    background: var(--dark);
+  }
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 400; font-size: 0.75rem; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--accent);
+    display: flex; align-items: center; gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .section-label::before { content: ''; width: 2rem; height: 1px; background: var(--accent); }
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900; font-size: clamp(2.5rem, 4vw, 3.5rem);
+    text-transform: uppercase; line-height: 1;
+    color: #fff; margin-bottom: 4rem;
+  }
+  .section-title span { color: var(--accent); }
+
+  .services-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: rgba(255,255,255,0.06);
+  }
+  .service-card {
+    background: rgba(255,255,255,0.03);
+    padding: 2.5rem 2rem;
+    transition: background 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .service-card:hover { background: rgba(184,92,56,0.12); }
+  .service-card::before {
+    content: attr(data-num);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900; font-size: 4rem;
+    color: rgba(255,255,255,0.03);
+    position: absolute; top: 1rem; right: 1.5rem;
+    line-height: 1;
+    transition: color 0.3s;
+  }
+  .service-card:hover::before { color: rgba(184,92,56,0.15); }
+  .service-icon {
+    width: 2.5rem; height: 2.5rem; margin-bottom: 1.5rem;
+    color: var(--brick);
+  }
+  .service-card h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700; font-size: 1.15rem; letter-spacing: 0.04em;
+    text-transform: uppercase; color: #fff;
+    margin-bottom: 0.75rem;
+  }
+  .service-card p {
+    font-size: 0.85rem; line-height: 1.65;
+    color: rgba(255,255,255,0.45);
+  }
+
+  /* ── ABOUT ── */
+  #yritys {
+    padding: 7rem 4rem;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6rem;
+    align-items: center;
+    background: var(--sand-light);
+  }
+  .about-images {
+    position: relative; height: 520px;
+  }
+  .about-img-1 {
+    position: absolute; top: 0; left: 0;
+    width: 68%; height: 75%;
+    object-fit: cover;
+    border-radius: 2px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    filter: sepia(0.1);
+  }
+  .about-img-2 {
+    position: absolute; bottom: 0; right: 0;
+    width: 58%; height: 60%;
+    object-fit: cover;
+    border-radius: 2px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+    border: 4px solid var(--off-white);
+    filter: sepia(0.1);
+  }
+  .about-badge {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    background: var(--brick); color: #fff;
+    width: 90px; height: 90px; border-radius: 50%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+    border: 4px solid var(--off-white);
+    z-index: 3;
+  }
+  .about-badge .b-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900; font-size: 1.8rem; line-height: 1;
+  }
+  .about-badge .b-label {
+    font-size: 0.52rem; letter-spacing: 0.1em; text-transform: uppercase;
+    opacity: 0.85; line-height: 1.3;
+  }
+  .about-content {}
+  .about-content .section-label { color: var(--brick); }
+  .about-content .section-label::before { background: var(--brick); }
+  .about-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900; font-size: clamp(2.2rem, 3vw, 3rem);
+    text-transform: uppercase; line-height: 1.05;
+    color: var(--dark); margin-bottom: 1.5rem;
+  }
+  .about-title span { color: var(--brick); }
+  .about-text {
+    font-size: 0.95rem; line-height: 1.75;
+    color: var(--concrete);
+    margin-bottom: 1rem;
+  }
+  .about-highlight {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600; font-size: 1.1rem;
+    color: var(--dark);
+    border-left: 3px solid var(--accent);
+    padding-left: 1rem; margin: 2rem 0;
+    line-height: 1.4;
+  }
+
+  /* ── REFERENCES ── */
+  #referenssit {
+    padding: 7rem 4rem;
+    background: var(--off-white);
+  }
+  #referenssit .section-label { color: var(--brick); }
+  #referenssit .section-label::before { background: var(--brick); }
+  #referenssit .section-title { color: var(--dark); }
+  #referenssit .section-title span { color: var(--brick); }
+
+  .ref-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 3rem; }
+  .ref-group h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700; font-size: 0.8rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--brick);
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .ref-group h4::after { content: ''; flex: 1; height: 1px; background: var(--brick); opacity: 0.2; }
+  .ref-list { list-style: none; }
+  .ref-list li {
+    font-size: 0.88rem; color: var(--concrete);
+    padding: 0.45rem 0;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    display: flex; align-items: center; gap: 0.6rem;
+    line-height: 1.4;
+  }
+  .ref-list li::before {
+    content: ''; flex-shrink: 0;
+    width: 4px; height: 4px; border-radius: 50%;
+    background: var(--accent);
+  }
+
+  /* ── CONTACT ── */
+  #yhteystiedot {
+    padding: 7rem 4rem;
+    background: var(--dark);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6rem;
+    align-items: center;
+  }
+  .contact-left {}
+  .contact-left .section-label { color: var(--accent); }
+  .contact-left .section-label::before { background: var(--accent); }
+  .contact-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900; font-size: clamp(2.2rem, 3vw, 3.2rem);
+    text-transform: uppercase; line-height: 1.05;
+    color: #fff; margin-bottom: 1rem;
+  }
+  .contact-sub {
+    font-size: 0.95rem; color: rgba(255,255,255,0.5);
+    line-height: 1.7; margin-bottom: 3rem;
+  }
+  .contact-items { display: flex; flex-direction: column; gap: 1.5rem; }
+  .contact-item { display: flex; align-items: flex-start; gap: 1.2rem; }
+  .c-icon {
+    width: 2.5rem; height: 2.5rem; flex-shrink: 0;
+    background: rgba(255,255,255,0.06);
+    border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent);
+  }
+  .c-icon svg { width: 1.1rem; height: 1.1rem; }
+  .contact-item .c-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(255,255,255,0.35); margin-bottom: 0.2rem;
+  }
+  .contact-item .c-value {
+    font-size: 0.95rem; color: rgba(255,255,255,0.8);
+    font-weight: 400;
+  }
+  .contact-item .c-value a { color: var(--accent); text-decoration: none; }
+
+  .contact-right {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 3rem; border-radius: 2px;
+  }
+  .contact-right h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700; font-size: 1.5rem; text-transform: uppercase;
+    color: #fff; margin-bottom: 2rem;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+  .form-group.full { grid-column: 1 / -1; }
+  .form-group label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+  .form-group input, .form-group textarea, .form-group select {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #fff; font-family: 'Barlow', sans-serif; font-size: 0.9rem;
+    padding: 0.75rem 1rem; border-radius: 2px;
+    outline: none; width: 100%;
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+  }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+    border-color: var(--accent);
+  }
+  .form-group textarea { resize: vertical; min-height: 100px; }
+  .form-group select option { background: var(--dark); }
+  .form-submit {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700; font-size: 0.85rem; letter-spacing: 0.12em;
+    text-transform: uppercase; border: none; cursor: pointer;
+    background: var(--brick); color: #fff;
+    padding: 0.9rem 2.5rem; border-radius: 2px;
+    margin-top: 1rem; width: 100%;
+    transition: background 0.2s;
+  }
+  .form-submit:hover { background: var(--brick-dark); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #0E0C0A;
+    padding: 2rem 4rem;
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 1px solid rgba(255,255,255,0.04);
+  }
+  .footer-logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900; font-size: 1rem; letter-spacing: 0.06em;
+    color: rgba(255,255,255,0.5); text-transform: uppercase;
+  }
+  .footer-logo span { color: var(--accent); }
+  footer p {
+    font-size: 0.75rem; color: rgba(255,255,255,0.25);
+  }
+
+  /* ── GALLERY STRIP ── */
+  .gallery-strip {
+    overflow: hidden;
+    margin: 3rem -4rem 3rem;
+    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  }
+  .gallery-track {
+    display: flex; gap: 1rem;
+    animation: scroll-gallery 40s linear infinite;
+    width: max-content;
+  }
+  .gallery-track:hover { animation-play-state: paused; }
+  .gallery-track img {
+    height: 220px; width: auto;
+    object-fit: cover;
+    border-radius: 2px;
+    filter: sepia(0.08) contrast(1.05);
+    flex-shrink: 0;
+    transition: filter 0.3s, transform 0.3s;
+  }
+  .gallery-track img:hover {
+    filter: none;
+    transform: scale(1.02);
+    z-index: 2;
+    position: relative;
+  }
+  @keyframes scroll-gallery {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-year { animation: fadeUp 0.6s ease 0.2s both; }
+  .hero-headline { animation: fadeUp 0.6s ease 0.4s both; }
+  .hero-sub { animation: fadeUp 0.6s ease 0.6s both; }
+  .hero-cta-group { animation: fadeUp 0.6s ease 0.8s both; }
+
+  /* ── HAMBURGER ── */
+  .nav-hamburger {
+    display: none;
+    flex-direction: column; justify-content: center; gap: 5px;
+    background: none; border: none; cursor: pointer;
+    padding: 4px; width: 32px; height: 32px;
+  }
+  .nav-hamburger span {
+    display: block; height: 2px; width: 100%;
+    background: #fff; border-radius: 2px;
+    transition: all 0.25s;
+    transform-origin: center;
+  }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  @media (max-width: 640px) {
+    .nav-hamburger { display: flex; }
+
+    .nav-links {
+      display: flex !important; /* override the hide */
+      flex-direction: column;
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(20,17,14,0.98);
+      backdrop-filter: blur(10px);
+      justify-content: center; align-items: center;
+      gap: 2.5rem;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
+      z-index: 99;
+    }
+    .nav-links.open { opacity: 1; pointer-events: all; }
+    .nav-links a { font-size: 1.4rem; letter-spacing: 0.15em; color: rgba(255,255,255,0.8); }
+    .nav-links a:hover { color: var(--accent); }
+  }
+
+  /* ── RESPONSIVE: TABLET ── */
+  @media (max-width: 1024px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.2rem; }
+    .nav-links a { font-size: 0.75rem; }
+
+    #hero { grid-template-columns: 1fr; min-height: 100svh; }
+    .hero-left { min-height: 100svh; padding: 7rem 2rem 5rem; }
+    .hero-right { display: none; }
+
+    #palvelut { padding: 5rem 2rem; }
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+
+    #yritys { grid-template-columns: 1fr; padding: 5rem 2rem; gap: 3rem; }
+    .about-images { height: 320px; }
+
+    #referenssit { padding: 5rem 2rem; }
+    .gallery-strip { margin: 3rem -2rem 3rem; }
+    .ref-layout { grid-template-columns: 1fr; gap: 2rem; }
+
+    #yhteystiedot { grid-template-columns: 1fr; padding: 5rem 2rem; gap: 3rem; }
+    .contact-right { padding: 2rem; }
+
+    footer { padding: 1.5rem 2rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+
+  /* ── RESPONSIVE: MOBILE ── */
+  @media (max-width: 640px) {
+    /* Nav: hide links, keep logo + cta */
+    nav { padding: 1rem 1.25rem; }
+    .nav-links { display: none; }
+    .nav-cta { font-size: 0.75rem; padding: 0.5rem 1rem; }
+
+    /* Hero */
+    .hero-left { padding: 6rem 1.25rem 4rem; }
+    .hero-headline { font-size: clamp(2.8rem, 12vw, 4rem); }
+    .hero-sub { font-size: 0.9rem; }
+    .hero-cta-group { flex-direction: column; gap: 0.75rem; }
+    .btn-primary, .btn-ghost { text-align: center; }
+
+    /* Services */
+    #palvelut { padding: 4rem 1.25rem; }
+    .services-grid { grid-template-columns: 1fr; gap: 1px; }
+    #palvelut .section-title { font-size: 2rem; }
+
+    /* About */
+    #yritys { padding: 4rem 1.25rem; gap: 2rem; }
+    .about-images { height: 260px; }
+    .about-badge { width: 72px; height: 72px; }
+    .about-badge .b-num { font-size: 1.4rem; }
+    .about-title { font-size: clamp(1.8rem, 8vw, 2.5rem); }
+
+    /* References */
+    #referenssit { padding: 4rem 1.25rem; }
+    .gallery-strip { margin: 2rem -1.25rem 2rem; }
+    .gallery-track img { height: 160px; }
+    #referenssit .section-title { font-size: 2rem; }
+
+    /* Contact */
+    #yhteystiedot { padding: 4rem 1.25rem; gap: 2.5rem; }
+    .contact-right { padding: 1.5rem; }
+    .form-row { grid-template-columns: 1fr; }
+    .contact-title { font-size: clamp(1.8rem, 8vw, 2.5rem); }
+
+    /* Footer */
+    footer { padding: 1.25rem; gap: 0.4rem; }
+    footer p { font-size: 0.7rem; }
+  }
+
+  /* ── RESPONSIVE: SMALL MOBILE ── */
+  @media (max-width: 380px) {
+    .hero-headline { font-size: 2.5rem; }
+    .nav-logo { font-size: 1rem; }
+    .about-images { height: 220px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">MJY <span>Julkisivutyö</span> Oy</div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#palvelut" onclick="closeMenu()">Palvelut</a></li>
+    <li><a href="#yritys" onclick="closeMenu()">Yritys</a></li>
+    <li><a href="#referenssit" onclick="closeMenu()">Referenssit</a></li>
+    <li><a href="#yhteystiedot" onclick="closeMenu()">Yhteystiedot</a></li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:1rem;">
+    <a href="tel:0400577390" class="nav-cta">Soita meille</a>
+    <button class="nav-hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Valikko">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-texture"></div>
+    <div class="hero-year">Perustettu 1993 — Yli 30 vuotta kokemusta</div>
+    <h1 class="hero-headline">
+      Julkisivu&shy;työt<br>
+      <em>ammattitaidolla</em>
+    </h1>
+    <p class="hero-sub">Rappaukset, maalaukset, betonikorjaukset ja parvekeremontit. Palvelemme taloyhtiöitä, julkishallintoa ja yksityisasiakkaita ympäri Suomea.</p>
+    <div class="hero-cta-group">
+      <a href="#yhteystiedot" class="btn-primary">Pyydä tarjous</a>
+      <a href="#palvelut" class="btn-ghost">Palvelumme</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-right-inner">
+      <img src="https://images.squarespace-cdn.com/content/v1/63dd0bde8d0c567090298bfc/1677436425870-5YUOPMBRJKA7758O3P23/Westparkin+Sypressi_1_1.png"
+           alt="Valmis julkisivukohde – suomalainen kerrostalo">
+    </div>
+    <div class="hero-stat-box">
+      <div class="num">30+</div>
+      <div class="label">Vuotta<br>kokemusta</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="palvelut">
+  <div class="section-label">Mitä teemme</div>
+  <h2 class="section-title">Palvelumme<br><span>kattavasti</span></h2>
+  <div class="services-grid">
+
+    <div class="service-card" data-num="01">
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="2" y="3" width="20" height="14" rx="1"/><path d="M8 21h8M12 17v4"/><path d="M7 8h10M7 11h6"/>
+      </svg>
+      <h3>Julkisivumaalaukset</h3>
+      <p>Ammattimainen julkisivumaalaus kaikenlaisille rakennuksille. Pitkäikäinen lopputulos ja siisti jälki.</p>
+    </div>
+
+    <div class="service-card" data-num="02">
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M3 12l9-9 9 9"/><path d="M9 21V12h6v9"/><path d="M5 21h14"/>
+      </svg>
+      <h3>Eristerappaukset</h3>
+      <p>Eristerappaus parantaa rakennuksen energiatehokkuutta ja antaa sille modernin ilmeen.</p>
+    </div>
+
+    <div class="service-card" data-num="03">
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>
+      </svg>
+      <h3>Rappaukset</h3>
+      <p>Perinteinen rappaus uusiin ja vanhoihin rakennuksiin. Myös omakotitalot ja sisäpuoliset rappaukset.</p>
+    </div>
+
+    <div class="service-card" data-num="04">
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+      </svg>
+      <h3>Hiekkapuhallukset</h3>
+      <p>Tehokas hiekkapuhallus pintojen puhdistukseen ja valmisteluun ennen pinnoitusta tai maalausta.</p>
+    </div>
+
+    <div class="service-card" data-num="05">
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+      </svg>
+      <h3>Pinnoitukset</h3>
+      <p>Suojaavat pinnoitukset eri materiaaleille. Parantaa rakenteiden kestävyyttä ja ulkonäköä.</p>
+    </div>
+
+    <div class="service-card" data-num="06">
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3-3a1 1 0 000-1.4l-1.6-1.6a1 1 0 00-1.4 0z"/><path d="M5 20L2 22l2-3 9.8-9.8"/><path d="M5 20l9-9"/>
+      </svg>
+      <h3>Betonikorjaukset</h3>
+      <p>Pätevä betonisaneeraus — halkeamat, karbonatisoituminen ja raudoitteiden korroosio hoidetaan kuntoon.</p>
+    </div>
+
+    <div class="service-card" data-num="07">
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="2" y="6" width="20" height="4" rx="1"/><rect x="2" y="14" width="20" height="4" rx="1"/><path d="M6 6V4M18 6V4M6 18v2M18 18v2"/>
+      </svg>
+      <h3>Parvekekorjaukset</h3>
+      <p>Kokonaisvaltaiset parvekeremontit rakenteista pintakäsittelyyn. Uudistamme parvekkeet turvallisiksi ja viihtyisiksi.</p>
+    </div>
+
+    <div class="service-card" data-num="08">
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      <h3>Omakotitalot</h3>
+      <p>Teemme myös omakotitaloihin kaikki julkisivutyöt. Kymmeniä omakotitaloja rapattuna ympäri Suomea.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="yritys">
+  <div class="about-images">
+    <img class="about-img-1"
+      src="https://images.squarespace-cdn.com/content/v1/63dd0bde8d0c567090298bfc/1677436470329-875ZM6AXRBUTAOHI510A/SLRappaus_1.png"
+      alt="Rappaustyö käynnissä">
+    <img class="about-img-2"
+      src="https://images.squarespace-cdn.com/content/v1/63dd0bde8d0c567090298bfc/1677436412117-6EYHPHARFYYFOEK13D19/Westparkin+Kataja_2.jpg"
+      alt="Valmis julkisivukohde">
+    <div class="about-badge">
+      <span class="b-num">1993</span>
+      <span class="b-label">perustettu</span>
+    </div>
+  </div>
+  <div class="about-content">
+    <div class="section-label">Meistä</div>
+    <h2 class="about-title">MJY <span>Julkisivutyö</span> Oy</h2>
+    <p class="about-text">Kuulumme MJY-yhtiöihin. MJY Julkisivutyö Oy (Julkisivutyö KSS Oy) on vuonna 1993 perustettu julkisivurakentamiseen erikoistunut rakennusliike.</p>
+    <p class="about-text">Meillä on vuosien kokemus julkisivurakentamisesta kautta maan. Olemme vahvasti mukana pääkaupunkiseudun rakentamisessa ja otamme mielellämme vastaan myös aliurakointia.</p>
+    <div class="about-highlight">
+      "Julkisivutöitä jo neljännesvuosisadan kokemuksella."
+    </div>
+    <p class="about-text">Asiakkaitamme ovat taloyhtiöt, julkishallinto, seurakunnat ja lukuisat yksityisasiakkaat ympäri Suomea.</p>
+  </div>
+</section>
+
+<!-- REFERENCES -->
+<section id="referenssit">
+  <div class="section-label">Asiakkaitamme</div>
+  <h2 class="section-title">Referenssit<br><span>ympäri Suomen</span></h2>
+
+  <!-- Kuvakaruselli -->
+  <div class="gallery-strip">
+    <div class="gallery-track">
+      <!-- Suomalaisia kerrostaloja ja julkisivukohteita -->
+      <img src="https://images.squarespace-cdn.com/content/v1/63dd0bde8d0c567090298bfc/1677436425870-5YUOPMBRJKA7758O3P23/Westparkin+Sypressi_1_1.png" alt="Kerrostalo kohde">
+      <img src="https://images.squarespace-cdn.com/content/v1/63dd0bde8d0c567090298bfc/1677436194962-W1LWI3T74W4LZ67W9DOW/kuva_4.png" alt="Julkisivukohde">
+      <img src="https://images.squarespace-cdn.com/content/v1/63dd0bde8d0c567090298bfc/1677436470329-875ZM6AXRBUTAOHI510A/SLRappaus_1.png" alt="Rappaustyö">
+      <img src="https://images.squarespace-cdn.com/content/v1/63dd0bde8d0c567090298bfc/1677436189203-EYDPBZ2BMPE30HYEF42M/kuva_6.png" alt="Julkisivukohde 2">
+      <img src="https://images.squarespace-cdn.com/content/v1/63dd0bde8d0c567090298bfc/1677436283801-BZ77S5E1FHD8YFCEW0AI/kuva_18.png" alt="Julkisivutyö">
+      <img src="https://images.squarespace-cdn.com/content/v1/63dd0bde8d0c567090298bfc/1677436393777-N4KNNU2VXL6YYLGGLEVL/SLRappaus_2+Suuri.jpeg" alt="Valmis kohde">
+      <img src="https://images.squarespace-cdn.com/content/v1/63dd0bde8d0c567090298bfc/1677436422713-V6R95ODHMI7F3I3UHBE6/Westparkin+Kataja.png" alt="Kerrostalokohde">
+      <img src="https://images.squarespace-cdn.com/content/v1/63dd0bde8d0c567090298bfc/1677436406941-TCMJ7OANLEYIJD56YSX8/Tampere_17_.png" alt="Tampere kohde">
+      <img src="https://images.squarespace-cdn.com/content/v1/63dd0bde8d0c567090298bfc/1677436337438-JV64YGF2CYVL63VX66OQ/kuva_31.jpg" alt="Kohde">
+      <img src="https://images.squarespace-cdn.com/content/v1/63dd0bde8d0c567090298bfc/1677436412117-6EYHPHARFYYFOEK13D19/Westparkin+Kataja_2.jpg" alt="Kataja kohde">
+      <!-- loop -->
+      <img src="https://images.squarespace-cdn.com/content/v1/63dd0bde8d0c567090298bfc/1677436425870-5YUOPMBRJKA7758O3P23/Westparkin+Sypressi_1_1.png" alt="Kerrostalo kohde">
+      <img src="https://images.squarespace-cdn.com/content/v1/63dd0bde8d0c567090298bfc/1677436470329-875ZM6AXRBUTAOHI510A/SLRappaus_1.png" alt="Rappaustyö">
+      <img src="https://images.squarespace-cdn.com/content/v1/63dd0bde8d0c567090298bfc/1677436243971-1JB5KVPNIFC82M8RUM4B/kuva_14.png" alt="Kohde 14">
+      <img src="https://images.squarespace-cdn.com/content/v1/63dd0bde8d0c567090298bfc/1677436227949-9J8EGVOCFNGE878JXD35/kuva_15.png" alt="Kohde 15">
+    </div>
+  </div>
+
+
+  <div class="ref-layout">
+    <div class="ref-group">
+      <h4>Helsinki &amp; pääkaupunkiseutu</h4>
+      <ul class="ref-list">
+        <li>As Oy Keijukaisenpolku 12</li>
+        <li>As Oy Käärtinpolku 10</li>
+        <li>As. Oy Haavikkotie 12–18</li>
+        <li>As. Oy Helsingin Lottahovi</li>
+        <li>As. Oy Konalanvuori, Riihipellonkuja 1–4</li>
+        <li>As. Oy Liisankatu 15</li>
+        <li>As. Oy Munkkiniemenranta 33</li>
+        <li>As. Oy Museokatu 7</li>
+        <li>As. Oy Orakoto, Orapihlajantie 21–27</li>
+        <li>As. Oy Poutamäentie talot 1–5</li>
+        <li>Deutsche Schule Malmikatu 14</li>
+        <li>Erottajankulma, sisäpihat</li>
+        <li>Ivalidisäätiön sairaala Orton</li>
+        <li>Kaisaniemen kasvit. puutarha</li>
+        <li>KOY Aleksis Kivenk. 9 – Nordean toimitalo</li>
+        <li>KOY Siilitie 9, talot 1, 2, 3 ja 11</li>
+        <li>Opastinkeskus Suomenlinna</li>
+        <li>Taideteollinen korkeakoulu, Hämeentie</li>
+        <li>Hoas opiskelija-asunnot, Haaga</li>
+        <li>As Oy Puikkarinmäki, Espoo</li>
+        <li>Jokivarren koulu, Vantaa</li>
+      </ul>
+    </div>
+    <div class="ref-group">
+      <h4>Muualla Suomessa</h4>
+      <ul class="ref-list">
+        <li>As. Oy Yhdyslinna sisäpiha, Joensuu</li>
+        <li>Dementiakoti, Vääksy</li>
+        <li>KOY Pormestarinluodon Ruskakoti, Pori</li>
+        <li>Kulttuurikeskus Poleeni, Pieksämäki</li>
+        <li>Kuopion lyseo, Kuopio</li>
+        <li>Noljakan kirkko, Joensuu</li>
+        <li>Rantasalmen kirkko – sisäpuolen rappaukset</li>
+        <li>Yliopiston hallintorakennus, Joensuu</li>
+        <li>Riihimäen vankila – sisäpuoliset rappaustyöt</li>
+        <li>Nikkilän palvelutalo Elsie</li>
+        <li>Axxell-ammattiopisto, Karjaa</li>
+        <li>As Sibeliuksenkatu 23, Järvenpää</li>
+        <li>Uranuskoti, Uranuksenkatu 2, Riihimäki</li>
+        <li>Hindhaaran koulu, Porvoo</li>
+        <li>Kirkonkylän koulu, Tuusula</li>
+        <li>Suomenlinna – rakennukset B40, E12, C82, C76</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="yhteystiedot">
+  <div class="contact-left">
+    <div class="section-label">Ota yhteyttä</div>
+    <h2 class="contact-title">Pyydä tarjous<br>tai kysy lisää</h2>
+    <p class="contact-sub">Soita meille tai lähetä viesti. Kerromme mielellämme lisää palveluistamme ja teemme tarjouksen projektiisi.</p>
+    <div class="contact-items">
+      <div class="contact-item">
+        <div class="c-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.6 10.72 19.79 19.79 0 01.54 2.1 2 2 0 012.53 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.18 6.18l1.27-.91a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        </div>
+        <div>
+          <div class="c-label">Puhelinnumero</div>
+          <div class="c-value"><a href="tel:0400577390">0400-577 390</a></div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="c-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div>
+          <div class="c-label">Sähköposti</div>
+          <div class="c-value"><a href="/cdn-cgi/l/email-protection#7a111b161f0c1354110f0f0913090e153a100f16111309130c0f0e031554191517"><span class="__cf_email__" data-cfemail="f19a909d948798df9a8484829882859eb19b849d9a988298878485889edf929e9c">[email&#160;protected]</span></a></div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="c-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div>
+          <div class="c-label">Palvelualue</div>
+          <div class="c-value">Helsinki, pääkaupunkiseutu ja koko Suomi</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="contact-right">
+    <h3>Lähetä viesti</h3>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Nimi</label>
+        <input type="text" placeholder="Matti Meikäläinen">
+      </div>
+      <div class="form-group">
+        <label>Puhelinnumero</label>
+        <input type="tel" placeholder="040 000 0000">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Sähköposti</label>
+        <input type="email" placeholder="matti@esimerkki.fi">
+      </div>
+      <div class="form-group">
+        <label>Palvelu</label>
+        <select>
+          <option value="">Valitse palvelu…</option>
+          <option>Julkisivumaalaus</option>
+          <option>Eristerappaus</option>
+          <option>Rappaus</option>
+          <option>Hiekkapuhallus</option>
+          <option>Pinnoitus</option>
+          <option>Betonikorjaus</option>
+          <option>Parvekekorjaus</option>
+          <option>Omakotitalo</option>
+          <option>Muu / useampi</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group full">
+        <label>Viesti</label>
+        <textarea placeholder="Kerro projektistasi lyhyesti…"></textarea>
+      </div>
+    </div>
+    <button class="form-submit" onclick="this.textContent='Viesti lähetetty ✓'; this.style.background='#4a7c59';">Lähetä viesti →</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">MJY <span>Julkisivutyö</span> Oy</div>
+  <p>© 2024 MJY Julkisivutyö Oy (Julkisivutyö KSS Oy) — Perustettu 1993</p>
+  <p><a href="tel:0400577390" style="color:rgba(255,255,255,0.35);text-decoration:none;">0400-577 390</a></p>
+</footer>
+
+<script>
+function toggleMenu() {
+  const nav = document.getElementById('navLinks');
+  const btn = document.getElementById('hamburger');
+  nav.classList.toggle('open');
+  btn.classList.toggle('open');
+  document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
+}
+function closeMenu() {
+  const nav = document.getElementById('navLinks');
+  const btn = document.getElementById('hamburger');
+  nav.classList.remove('open');
+  btn.classList.remove('open');
+  document.body.style.overflow = '';
+}
+</script>
+</body>
+</html>
